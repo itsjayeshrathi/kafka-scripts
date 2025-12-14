@@ -3,5 +3,5 @@ docker exec kafka \
     --bootstrap-server localhost:9092 \
     --create \
     --topic products.prices.changelog \
-    --partitions 1 \
-    --replication-factor 1
+    --partitions 2\
+    --replication-factor 2

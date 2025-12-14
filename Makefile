@@ -6,12 +6,6 @@ TOPIC ?= products.prices.changelog
 
 .PHONY: list describe create produce consume
 
-list:
-	bash part-two/list-topic.sh
-
-describe:
-	bash part-two/describe-topic.sh
-
 create:
 	bash part-one/create-topic.sh
 
@@ -20,6 +14,12 @@ produce:
 
 consume:
 	bash part-one/kafka-console-consumer.sh
+
+describe:
+	bash part-two/describe-topic.sh
+
+list:
+	bash part-two/list-topic.sh
 
 delete:
 	bash part-two/delete-topic.sh
