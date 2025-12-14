@@ -6,7 +6,5 @@ KAFKA_BIN=/bin
 BOOTSTRAP_SERVER=kafka-1:9092
 
 docker exec "$KAFKA_CONTAINER" \
-    "$KAFKA_BIN"/kafka-topics \
-    --bootstrap-server "$BOOTSTRAP_SERVER" \
-    --delete \
-    --topic products.prices.changelog
+    "$KAFKA_BIN"/kafka-broker-api-versions \
+    --bootstrap-server kafka-1:9092

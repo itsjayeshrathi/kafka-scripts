@@ -23,3 +23,6 @@ list:
 
 delete:
 	bash part-two/delete-topic.sh
+
+broker-api:
+	bash part-two/broker-api.sh
