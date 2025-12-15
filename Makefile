@@ -26,3 +26,6 @@ delete:
 
 broker-api:
 	bash part-two/broker-api.sh
+
+add-partition:
+	bash part-two/add-partition.sh

@@ -8,4 +8,7 @@ BOOTSTRAP_SERVER=kafka-1:9092
 docker exec "$KAFKA_CONTAINER" \
     "$KAFKA_BIN"/kafka-topics \
     --bootstrap-server "$BOOTSTRAP_SERVER" \
-    --list \
+    --alter \   
+    --topic products.prices.changelog \
+    --partitions 3 
+    
