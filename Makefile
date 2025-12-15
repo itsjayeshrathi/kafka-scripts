@@ -7,7 +7,7 @@ TOPIC ?= products.prices.changelog
 .PHONY: list describe create produce consume
 
 create:
-	bash part-one/create-topic.sh
+	bash topic/create.sh 
 
 produce:
 	bash part-one/kafka-console-producer.sh
@@ -19,7 +19,7 @@ describe:
 	bash part-two/describe-topic.sh
 
 list:
-	bash part-two/list-topic.sh
+	bash topic/
 
 delete:
 	bash part-two/delete-topic.sh
@@ -29,3 +29,6 @@ broker-api:
 
 add-partition:
 	bash part-two/add-partition.sh
+
+add-key:
+	bash part-two/add-key.sh
