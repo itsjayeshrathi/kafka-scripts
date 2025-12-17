@@ -9,11 +9,14 @@ TOPIC ?= products.prices.changelog
 create:
 	bash topic/create.sh 
 
+create-multi-partition:
+	bash topics/multi-partition.sh
+
 produce:
-	bash part-one/kafka-console-producer.sh
+	bash producer/kafka-console-producer.sh
 
 consume:
-	bash part-one/kafka-console-consumer.sh
+	bash consumer/kafka-console-consumer.sh
 
 describe:
 	bash part-two/describe-topic.sh

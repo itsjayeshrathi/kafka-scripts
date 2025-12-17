@@ -1,24 +1,19 @@
 #!/usr/bin/env bash
-# set -euo pipefail
-
-# KAFKA_CONTAINER=kafka-1
-# KAFKA_BIN=/bin
-# BOOTSTRAP_SERVER=kafka-1:9092
-
-# docker exec -it "$KAFKA_CONTAINER" bash -c \
-#   "$KAFKA_BIN/kafka-console-producer \
-#    --bootstrap-server $BOOTSTRAP_SERVER \
-#    --topic products.prices.changelog"
 
 set -euo pipefail
 
-KAFKA_CONTAINER=kafka-1
-KAFKA_BIN=/bin
-BOOTSTRAP_SERVER=kafka-1:9092
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source  "$SCRIPT_DIR/../config/kafka.env"
 
 docker exec -it "$KAFKA_CONTAINER" bash -c \
   "$KAFKA_BIN/kafka-console-producer \
    --bootstrap-server $BOOTSTRAP_SERVER \
-   --topic products.prices.changelog.keys \
-   --property parse.key=true \
-   --property key.separator=:"
+   --topic products.prices.changelog.multipartions"
+
+
+# docker exec -it "$KAFKA_CONTAINER" bash -c \
+#   "$KAFKA_BIN/kafka-console-producer \
+#    --bootstrap-server $BOOTSTRAP_SERVER \
+#    --topic products.prices.changelog.multipartition \
+#    --property parse.key=true \
+#    --property key.separator=:"
