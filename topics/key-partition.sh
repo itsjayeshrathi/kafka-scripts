@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/user/bin/env bash 
 set -euo pipefail 
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -7,6 +7,7 @@ source "$SCRIPT_DIR/../config/kafka.env"
 docker exec "$KAFKA_CONTAINER" \
     "$KAFKA_BIN"/kafka-topics \
     --bootstrap-server "$BOOTSTRAP_SERVER" \
-    --describe \
-    --topic products.prices.changelog \
-| tr '\t' ' '  | column -t 
+    --create \
+    --topic products.prices.changelog.multi-partitions-keys \
+    --replication-factor 2 \
+    --partitions 2

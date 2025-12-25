@@ -12,26 +12,32 @@ create:
 create-multi-partition:
 	bash topics/multi-partition.sh
 
+create-min-in-sync: 
+	bash topics/min-sync.sh
+
+describe:
+	bash topics/describe-topic.sh
+
+list:
+	bash topics/list.sh
+
+delete:
+	bash topics/delete-topic.sh
+
+add-partition:
+	bash topics/add-partition.sh
+
 produce:
 	bash producer/kafka-console-producer.sh
 
 consume:
 	bash consumer/kafka-console-consumer.sh
 
-describe:
-	bash part-two/describe-topic.sh
+produce-key: 
+	bash producer/producer-partition-key.sh
 
-list:
-	bash topic/
-
-delete:
-	bash part-two/delete-topic.sh
+consume-key:
+	bash consumer/consumer-partition-key.sh
 
 broker-api:
-	bash part-two/broker-api.sh
-
-add-partition:
-	bash part-two/add-partition.sh
-
-add-key:
-	bash part-two/add-key.sh
+	bash broker/broker-api.sh

@@ -8,4 +8,4 @@ docker exec "$KAFKA_CONTAINER" \
   "$KAFKA_BIN/kafka-console-consumer" \
   --bootstrap-server "$BOOTSTRAP_SERVER" \
   --topic products.prices.changelog.multipartions \
-  --from-beginning 
+  --from-beginning  
