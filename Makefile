@@ -16,13 +16,13 @@ create-min-in-sync:
 	bash topics/min-sync.sh
 
 describe:
-	bash topics/describe-topic.sh
+	bash topics/describe.sh
 
 list:
 	bash topics/list.sh
 
 delete:
-	bash topics/delete-topic.sh
+	bash topics/delete.sh
 
 add-partition:
 	bash topics/add-partition.sh
@@ -41,3 +41,6 @@ consume-key:
 
 broker-api:
 	bash broker/broker-api.sh
+
+broker-stop: 
+	bash broker/stop.sh

@@ -9,4 +9,4 @@ docker exec "$KAFKA_CONTAINER" \
     "$KAFKA_BIN"/kafka-topics \
     --bootstrap-server "$BOOTSTRAP_SERVER" \
     --delete \
-    --topic products.prices.changelog
+    --topic products.prices.changelog.min-isr-2

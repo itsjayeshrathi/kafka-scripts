@@ -9,6 +9,7 @@ docker exec "$KAFKA_CONTAINER" \
     "$KAFKA_BIN"/kafka-topics \
     --bootstrap-server "$BOOTSTRAP_SERVER" \
     --alter \
-    --topic products.prices.changelog \
+    --topic products.prices.changelog.min-isr-2 \
+    --replication-factor 3 \
     --partitions 3 
     

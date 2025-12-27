@@ -1,5 +1,5 @@
 #!/usr/bin/env bash 
-set -euo pipefail 
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../config/kafka.env"
@@ -9,4 +9,6 @@ docker exec "$KAFKA_CONTAINER" \
     --bootstrap-server "$BOOTSTRAP_SERVER" \
     --create \
     --topic products.prices.changelog.min-isr-2 \
+    --replication-factor 3 \
+    --partitions 3 \
     --config min.insync.replicas=2
