@@ -1,51 +1,89 @@
 SHELL := /bin/bash
 
+PROJECT := kafka-scripts
+
+# base paths
+SCRIPTS_DIR := scripts
+BROKER_DIR  := $(SCRIPTS_DIR)/broker
+TOPICS_DIR  := $(SCRIPTS_DIR)/topics
+PROD_DIR    := $(SCRIPTS_DIR)/producer
+CONS_DIR    := $(SCRIPTS_DIR)/consumer
+
+# docker file
+DOCKER_DIR := docker
+COMPOSE_FILE := $(DOCKER_DIR)/docker-compose.yml
+
+# kafka config
 KAFKA_CONTAINER := kafka
-BOOTSTRAP := localhost:9092
-TOPIC ?= products.prices.changelog
+BOOTSTRAP       := localhost:9092
+TOPIC          ?= products.prices.changelog
 
-.PHONY: list describe create produce consume
+# phony targets
+.PHONY: \
+	create create-multi-partition create-min-in-sync \
+	describe list delete add-partition \
+	produce produce-ack produce-key \
+	consume consume-ack consume-key \
+	broker-api broker-stop
 
+# topics
 create:
-	bash topic/create.sh 
+	bash $(TOPICS_DIR)/create.sh
 
 create-multi-partition:
-	bash topics/multi-partition.sh
+	bash $(TOPICS_DIR)/multi-partition.sh
 
-create-min-in-sync: 
-	bash topics/min-sync.sh
+create-min-in-sync:
+	bash $(TOPICS_DIR)/min-sync.sh
 
 describe:
-	bash topics/describe.sh
+	bash $(TOPICS_DIR)/describe.sh
 
 list:
-	bash topics/list.sh
+	bash $(TOPICS_DIR)/list.sh
 
 delete:
-	bash topics/delete.sh
+	bash $(TOPICS_DIR)/delete.sh
 
 add-partition:
-	bash topics/add-partition.sh
+	bash $(TOPICS_DIR)/add-partition.sh
 
+# producer
 produce:
-	bash producer/kafka-console-producer.sh
+	bash $(PROD_DIR)/kafka-console-producer.sh
 
 produce-ack:
-	bash producer/kcp-ack.sh
+	bash $(PROD_DIR)/kcp-ack.sh
 
-consume-ack: 
-	bash consumer/kcc-ack.sh
+produce-key:
+	bash $(PROD_DIR)/producer-partition-key.sh
+
+# consumer
 consume:
-	bash consumer/kafka-console-consumer.sh
+	bash $(CONS_DIR)/kafka-console-consumer.sh
 
-produce-key: 
-	bash producer/producer-partition-key.sh
+consume-ack:
+	bash $(CONS_DIR)/kcc-ack.sh
 
 consume-key:
-	bash consumer/consumer-partition-key.sh
+	bash $(CONS_DIR)/consumer-partition-key.sh
 
+# broker
 broker-api:
-	bash broker/broker-api.sh
+	bash $(BROKER_DIR)/broker-api.sh
 
-broker-stop: 
-	bash broker/stop.sh
+broker-stop:
+	bash $(BROKER_DIR)/stop.sh
+
+# docker
+up:
+	docker compose -p $(PROJECT) -f $(COMPOSE_FILE) up -d
+
+down:
+	docker compose -p $(PROJECT) -f $(COMPOSE_FILE) down
+
+down-clean:
+	docker compose -p $(PROJECT) -f $(COMPOSE_FILE) down -v
+
+ps:
+	docker compose -p $(PROJECT) ps

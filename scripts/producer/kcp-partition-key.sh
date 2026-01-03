@@ -2,7 +2,9 @@
 set -euo pipefail 
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../config/kafka.env"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+source "$PROJECT_ROOT/config/kafka.env"
 
 docker exec -it "$KAFKA_CONTAINER" bash -c "
 $KAFKA_BIN/kafka-console-producer \
