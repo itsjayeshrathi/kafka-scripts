@@ -1,9 +1,8 @@
 #!/usr/bin/env bash 
 set -euo pipefail 
 
-KAFKA_CONTAINER=kafka-1
-KAFKA_BIN=/bin
-BOOTSTRAP_SERVER=kafka-1:9092
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../config/kafka.env"
 
 docker exec "$KAFKA_CONTAINER" \
     "$KAFKA_BIN"/kafka-topics \

@@ -30,6 +30,11 @@ add-partition:
 produce:
 	bash producer/kafka-console-producer.sh
 
+produce-ack:
+	bash producer/kcp-ack.sh
+
+consume-ack: 
+	bash consumer/kcc-ack.sh
 consume:
 	bash consumer/kafka-console-consumer.sh
 

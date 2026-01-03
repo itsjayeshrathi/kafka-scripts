@@ -5,8 +5,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../config/kafka.env"
 
 docker exec "$KAFKA_CONTAINER" \
-    "$KAFKA_BIN"/kafka-topics \
-    --bootstrap-server "$BOOTSTRAP_SERVER" \
-    --describe \
-    --topic products.prices.changelog.min-isr-2 \
-| tr '\t' ' '  | column -t 
+    "$KAFKA_BIN/kafka-server-stop" \
+    "kafka-2" \
+    --bootstrap-server "$BOOTSTRAP_SERVER"
