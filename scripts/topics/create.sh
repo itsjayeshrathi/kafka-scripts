@@ -1,15 +1,19 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env bash 
+set -euo pipefail 
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+source "$(dirname "$0")/../common/env.sh"
+source "$(dirname "$0")/../common/validate.sh"
+source "$(dirname "$0")/../common/kafka.sh"
 
-source "$PROJECT_ROOT/config/kafka.env"
+: "${TOPIC:?TOPIC is required}"
+: "${REPLICATION_FACTOR:?REPLICATION_FACTOR is required}"
+: "${PARTITIONS:?PARTITIONS is required}"
 
-docker exec "$KAFKA_CONTAINER" \
-  "$KAFKA_BIN/kafka-topics" \
-  --bootstrap-server "$BOOTSTRAP_SERVER" \
+kafka_topics \
   --create \
-  --topic products.prices.changelog \
-  --partitions 2 \
-  --replication-factor 2
+  --topic "$TOPIC" \
+  --partitions "${PARTITIONS}" \
+  --replication-factor "${REPLICATION_FACTOR}" \
+  ${MIN_ISR:+--config min.insync.replicas="$MIN_ISR"} \
+  ${CLEANUP_POLICY:+--config cleanup.policy="$CLEANUP_POLICY"} \
+  ${RETENTION_MS:+--config retention.ms="$RETENTION_MS"}

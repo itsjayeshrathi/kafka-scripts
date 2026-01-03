@@ -1,13 +1,10 @@
 #!/usr/bin/env bash 
 set -euo pipefail 
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+source "$(dirname "$0")/../common/env.sh"
+source "$(dirname "$0")/../common/validate.sh"
+source "$(dirname "$0")/../common/kafka.sh"
 
-source "$PROJECT_ROOT/config/kafka.env"
+: "${TOPIC:?TOPIC is required}"
 
-docker exec "$KAFKA_CONTAINER" \
-    "$KAFKA_BIN"/kafka-topics \
-    --bootstrap-server "$BOOTSTRAP_SERVER" \
-    --delete \
-    --topic products.prices.changelog.min-isr-2
+kafka_topics --delete --topic "$TOPIC"

@@ -2,78 +2,25 @@ SHELL := /bin/bash
 
 PROJECT := kafka-scripts
 
-# base paths
+# paths
 SCRIPTS_DIR := scripts
 BROKER_DIR  := $(SCRIPTS_DIR)/broker
 TOPICS_DIR  := $(SCRIPTS_DIR)/topics
 PROD_DIR    := $(SCRIPTS_DIR)/producer
 CONS_DIR    := $(SCRIPTS_DIR)/consumer
 
-# docker file
+# docker
 DOCKER_DIR := docker
 COMPOSE_FILE := $(DOCKER_DIR)/docker-compose.yml
 
-# kafka config
-KAFKA_CONTAINER := kafka
-BOOTSTRAP       := localhost:9092
-TOPIC          ?= products.prices.changelog
+# defaults
+TOPIC ?= products.prices.changelog
 
-# phony targets
 .PHONY: \
-	create create-multi-partition create-min-in-sync \
-	describe list delete add-partition \
-	produce produce-ack produce-key \
-	consume consume-ack consume-key \
-	broker-api broker-stop
-
-# topics
-create:
-	bash $(TOPICS_DIR)/create.sh
-
-create-multi-partition:
-	bash $(TOPICS_DIR)/multi-partition.sh
-
-create-min-in-sync:
-	bash $(TOPICS_DIR)/min-sync.sh
-
-describe:
-	bash $(TOPICS_DIR)/describe.sh
-
-list:
-	bash $(TOPICS_DIR)/list.sh
-
-delete:
-	bash $(TOPICS_DIR)/delete.sh
-
-add-partition:
-	bash $(TOPICS_DIR)/add-partition.sh
-
-# producer
-produce:
-	bash $(PROD_DIR)/kafka-console-producer.sh
-
-produce-ack:
-	bash $(PROD_DIR)/kcp-ack.sh
-
-produce-key:
-	bash $(PROD_DIR)/producer-partition-key.sh
-
-# consumer
-consume:
-	bash $(CONS_DIR)/kafka-console-consumer.sh
-
-consume-ack:
-	bash $(CONS_DIR)/kcc-ack.sh
-
-consume-key:
-	bash $(CONS_DIR)/consumer-partition-key.sh
-
-# broker
-broker-api:
-	bash $(BROKER_DIR)/broker-api.sh
-
-broker-stop:
-	bash $(BROKER_DIR)/stop.sh
+	up down down-clean ps \
+	create describe list delete \
+	produce consume \
+	broker-api
 
 # docker
 up:
@@ -87,3 +34,28 @@ down-clean:
 
 ps:
 	docker compose -p $(PROJECT) ps
+
+# topics
+create:
+	bash $(TOPICS_DIR)/create.sh
+
+describe:
+	TOPIC=$(TOPIC) bash $(TOPICS_DIR)/describe.sh
+
+list:
+	bash $(TOPICS_DIR)/list.sh
+
+delete:
+	TOPIC=$(TOPIC) bash $(TOPICS_DIR)/delete.sh
+
+# producer
+produce:
+	TOPIC=$(TOPIC) bash $(PROD_DIR)/produce.sh
+
+# consumer
+consume:
+	TOPIC=$(TOPIC) bash $(CONS_DIR)/consume.sh
+
+# broker
+broker-api:
+	bash $(BROKER_DIR)/broker-api.sh
