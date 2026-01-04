@@ -8,6 +8,7 @@ BROKER_DIR  := $(SCRIPTS_DIR)/broker
 TOPICS_DIR  := $(SCRIPTS_DIR)/topics
 PROD_DIR    := $(SCRIPTS_DIR)/producer
 CONS_DIR    := $(SCRIPTS_DIR)/consumer
+EXPERIMENT_DIR := $(SCRIPTS_DIR)/experiments
 
 # docker
 DOCKER_DIR := docker
@@ -25,6 +26,9 @@ TOPIC ?= products.prices.changelog
 # docker
 up:
 	docker compose -p $(PROJECT) -f $(COMPOSE_FILE) up -d
+
+up-log:
+	docker compse -p $(PROJECT) -f $(COMPOSE_FILE) up
 
 down:
 	docker compose -p $(PROJECT) -f $(COMPOSE_FILE) down
@@ -59,3 +63,7 @@ consume:
 # broker
 broker-api:
 	bash $(BROKER_DIR)/broker-api.sh
+
+# experiments
+election:
+	bash $(EXPERIMENT_DIR)/controller-election.sh
