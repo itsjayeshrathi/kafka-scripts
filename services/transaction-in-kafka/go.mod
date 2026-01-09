@@ -1,4 +1,4 @@
-module github.com/itsjayeshrathi/transaction-in-kafka
+module github.com/itsjayeshrathi/kafka-scripts/services/transaction-in-kafka
 
 go 1.25.5
 
